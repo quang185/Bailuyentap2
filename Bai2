@@ -1,0 +1,54 @@
+public class Computer {
+
+    private String HDD;
+    private String RAM;
+    private boolean isBluetoothEnabled;
+
+    // Constructor private
+    private Computer(ComputerBuilder builder) {
+        this.HDD = builder.HDD;
+        this.RAM = builder.RAM;
+        this.isBluetoothEnabled = builder.isBluetoothEnabled;
+    }
+
+    // Static inner class Builder
+    public static class ComputerBuilder {
+
+        private String HDD;
+        private String RAM;
+        private boolean isBluetoothEnabled;
+
+        public ComputerBuilder(String HDD, String RAM) {
+            this.HDD = HDD;
+            this.RAM = RAM;
+        }
+
+        public ComputerBuilder setBluetoothEnabled(boolean value) {
+            this.isBluetoothEnabled = value;
+            return this;
+        }
+
+        public Computer build() {
+            return new Computer(this);
+        }
+    }
+
+    public void showInfo() {
+        System.out.println("HDD: " + HDD +
+                ", RAM: " + RAM +
+                ", Bluetooth: " + isBluetoothEnabled);
+    }
+
+    public static void main(String[] args) {
+
+        Computer pc1 = new Computer.ComputerBuilder("1TB", "16GB")
+                .setBluetoothEnabled(true)
+                .build();
+
+        Computer pc2 = new Computer.ComputerBuilder("500GB", "8GB")
+                .build();
+
+        pc1.showInfo();
+        pc2.showInfo();
+    }
+}
