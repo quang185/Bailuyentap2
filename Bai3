@@ -1,0 +1,37 @@
+import java.util.concurrent.CompletableFuture;
+
+public class Bai3 {
+
+    public static void main(String[] args) {
+
+        // Tác vụ 1: Xác thực khách hàng
+        CompletableFuture<String> xacThuc = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {}
+            System.out.println("Xác thực khách hàng hoàn thành");
+            return "Thông tin hợp lệ";
+        });
+
+        // Tác vụ 2: Xuất vé
+        CompletableFuture<String> xuatVe = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {}
+            System.out.println("Xuất vé hoàn thành");
+            return "Vé đã được in";
+        });
+
+        // Kết hợp 2 tác vụ
+        CompletableFuture<String> ketQua =
+                xacThuc.thenCombine(xuatVe, (a, b) -> {
+                    return "Hệ thống hoàn thành đặt vé";
+                });
+
+        // In kết quả cuối
+        ketQua.thenAccept(System.out::println);
+
+        // Chờ chương trình chạy xong
+        ketQua.join();
+    }
+}
